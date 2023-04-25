@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.2.3)
 
-project(qt-opencv-multithreaded)
+project(anscenter-desktop)
 
-set(PROJECT_NAME            "qt-opencv-multithreaded")
+set(PROJECT_NAME            "anscenter-desktop")
 set(PROJECT_VERSION         "1.4.0")
-set(PROJECT_AUTHOR_NAME     "Nick D'Ademo")
-set(PROJECT_AUTHOR_EMAIL    "nickdademo@gmail.com")
-set(PROJECT_AUTHOR_WEBSITE  "www.nickdademo.com")
+set(PROJECT_AUTHOR_NAME     "Pham Thanh Phong")
+set(PROJECT_AUTHOR_EMAIL    "phongpham663@gmail.com")
+set(PROJECT_AUTHOR_WEBSITE  "www.anscenter.com")
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
