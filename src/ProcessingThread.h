@@ -7,6 +7,7 @@
 #include <QTime>
 #include <QQueue>
 #include <QImage>
+#include <QMutex>
 
 #include <opencv2/opencv.hpp>
 

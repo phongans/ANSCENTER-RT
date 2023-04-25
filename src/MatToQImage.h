@@ -3,14 +3,10 @@
 #ifndef MATTOQIMAGE_H
 #define MATTOQIMAGE_H
 
-// Qt
-#include <QtGui/QImage>
-// OpenCV
+#include <QImage>
+
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui.hpp>
 
-using namespace cv;
-
-QImage MatToQImage(const Mat&);
+QImage MatToQImage(const cv::Mat& mat);
 
 #endif // MATTOQIMAGE_H

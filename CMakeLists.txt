@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.2.3)
+cmake_minimum_required(VERSION 3.17)
 
 project(anscenter-desktop)
 
 set(PROJECT_NAME            "anscenter-desktop")
-set(PROJECT_VERSION         "1.4.0")
+set(PROJECT_VERSION         "1.0.0")
 set(PROJECT_AUTHOR_NAME     "Pham Thanh Phong")
 set(PROJECT_AUTHOR_EMAIL    "phongpham663@gmail.com")
 set(PROJECT_AUTHOR_WEBSITE  "www.anscenter.com")

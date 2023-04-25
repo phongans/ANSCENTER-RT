@@ -3,17 +3,15 @@
 #ifndef IMAGEPROCESSINGSETTINGSDIALOG_H
 #define IMAGEPROCESSINGSETTINGSDIALOG_H
 
-// Qt
 #include <QDialog>
-#include <QAbstractButton>
-#include <QRegExpValidator>
-// Local
+
 #include "Structures.h"
-#include "Config.h"
 
 namespace Ui {
 class ImageProcessingSettingsDialog;
 }
+
+class QAbstractButton;
 
 class ImageProcessingSettingsDialog : public QDialog
 {
@@ -26,7 +24,7 @@ class ImageProcessingSettingsDialog : public QDialog
 
     private:
         Ui::ImageProcessingSettingsDialog *ui;
-        ImageProcessingSettings imageProcessingSettings;
+        ImageProcessingSettings m_imageProcessingSettings;
 
     public slots:
         void resetAllDialogToDefaults();
@@ -39,10 +37,10 @@ class ImageProcessingSettingsDialog : public QDialog
         void resetFlipDialogToDefaults();
         void resetCannyDialogToDefaults();
         void validateDialog();
-        void smoothTypeChange(QAbstractButton *);
+        void smoothTypeChange(QAbstractButton *button);
 
     signals:
-        void newImageProcessingSettings(struct ImageProcessingSettings p_settings);
+        void newImageProcessingSettings(ImageProcessingSettings settings);
 };
 
 #endif // IMAGEPROCESSINGSETTINGSDIALOG_H

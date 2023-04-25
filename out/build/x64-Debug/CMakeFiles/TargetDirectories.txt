@@ -1,6 +1,0 @@
-C:/Projects/ANSCENTER-RT/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-C:/Projects/ANSCENTER-RT/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
-C:/Projects/ANSCENTER-RT/out/build/x64-Debug/src/CMakeFiles/anscenter-desktop.dir
-C:/Projects/ANSCENTER-RT/out/build/x64-Debug/src/CMakeFiles/edit_cache.dir
-C:/Projects/ANSCENTER-RT/out/build/x64-Debug/src/CMakeFiles/rebuild_cache.dir
-C:/Projects/ANSCENTER-RT/out/build/x64-Debug/src/CMakeFiles/anscenter-desktop_autogen.dir

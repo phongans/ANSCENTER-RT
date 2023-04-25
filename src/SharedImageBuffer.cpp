@@ -1,3 +1,4 @@
+
 #include "SharedImageBuffer.h"
 
 SharedImageBuffer::SharedImageBuffer()
