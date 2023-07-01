@@ -1,6 +1,15 @@
-qt-opencv-multithreaded
-=======================
-Official project page: http://code.google.com/p/qt-opencv-multithreaded/
+# OVIDA-RT Edge AI Video Analytics for any hardware.
+
+![ovida](ovida.png)
+
+# Introducing  OVIDA-RT.
+OVIDA-RT is our AI software stack that comes pre-installed with dozens of video analytics and computer vision solutions. It's easy to configure and customize to your use-case, even if you're not a data scientist or developer.
+
+# All of our solutions for one price
+For a single low price you have access to all of our AI solutions now, and in the future.
+
+# Deployment options for OVIDA's algorithms.
+OVIDA provides many deployment options for our computer vision algorithms, including hardware, cloud, and docker. Work with us to define your ideal outcomes, and our solutions team will provide a full package, ready for release or integration.
 
 ## Windows
 ### Visual Studio 2013
@@ -17,14 +26,3 @@ Firstly, ensure the following are added to the Windows ```PATH``` variable (modi
 - CMake executable: ```C:/Program Files (x86)/CMake/bin```  
 - Qt libraries (DLLs): ```C:/Qt/Qt5.5.0/5.5/msvc2013_64/bin```  
 - OpenCV libraries (DLLs): ```C:/Users/Nick/Desktop/opencv/build/x64/vc12```
-
-#### Building
-1. Create a build folder inside the top-level directory (this repository):  
-```$ mkdir build```  
-2. Navigate to created folder:  
-```$ cd build```  
-3. Run cmake (specify path to Qt installation and OpenCV and choose the desired Visual Studio generator):  
-```$ cmake -D CMAKE_PREFIX_PATH=C:/Qt/Qt5.5.0/5.5/msvc2013_64 -D OpenCV_DIR=C:/Users/Nick/Desktop/opencv/build -G "Visual Studio 12 2013 Win64" ..```  
-4. Open generated *qt-opencv-multithreaded.sln* in Visual Studio 2013.  
-5. After opening the solution, ensure you right-hand click the *qt-opencv-multithreaded* project and choose "Set as StartUp Project" for correct running and debugging within Visual Studio.  
-6. Build the solution.
