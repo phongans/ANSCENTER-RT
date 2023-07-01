@@ -12,6 +12,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "Structures.h"
+#include "Plugins/Inference/src/inference_trt.h"
 
 class SharedImageBuffer;
 
@@ -47,7 +48,7 @@ class ProcessingThread : public QThread
         int m_sampleNumber;
         int m_deviceNumber;
         bool m_enableFrameProcessing;
-
+        InferenceTRT inference = InferenceTRT("C:/Projects/Research/Models/yolov8s.onnx");
     protected:
         void run();
 
