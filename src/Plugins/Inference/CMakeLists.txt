@@ -27,6 +27,8 @@ set(inference_headers
 # TODO: Specify the path to TensorRT root dir
 set(TensorRT_DIR C:/TensorRT-8.5.1.7)
 
+add_subdirectory(libtensorrt)
+
 # Build the inferenceTRT library
 add_library(${PROJECT_NAME} SHARED ${inference_sources})
 target_link_libraries(${PROJECT_NAME} PUBLIC tensorrt_cpp_api ${OpenCV_LIBS})

@@ -7,7 +7,7 @@ SharedImageBuffer::SharedImageBuffer()
     m_doSync = false;
 }
 
-void SharedImageBuffer::add(int deviceNumber, Buffer<cv::Mat>* imageBuffer, bool sync)
+void SharedImageBuffer::add(QString deviceNumber, Buffer<cv::Mat>* imageBuffer, bool sync)
 {
     // Device stream is to be synchronized
     if(sync)
@@ -20,12 +20,12 @@ void SharedImageBuffer::add(int deviceNumber, Buffer<cv::Mat>* imageBuffer, bool
     m_imageBufferMap[deviceNumber] = imageBuffer;
 }
 
-Buffer<cv::Mat>* SharedImageBuffer::getByDeviceNumber(int deviceNumber)
+Buffer<cv::Mat>* SharedImageBuffer::getByDeviceNumber(QString deviceNumber)
 {
     return m_imageBufferMap[deviceNumber];
 }
 
-void SharedImageBuffer::removeByDeviceNumber(int deviceNumber)
+void SharedImageBuffer::removeByDeviceNumber(QString deviceNumber)
 {
     // Remove buffer for device from imageBufferMap
     m_imageBufferMap.remove(deviceNumber);
@@ -40,7 +40,7 @@ void SharedImageBuffer::removeByDeviceNumber(int deviceNumber)
     m_mutex.unlock();
 }
 
-void SharedImageBuffer::sync(int deviceNumber)
+void SharedImageBuffer::sync(QString deviceNumber)
 {
     // Only perform sync if enabled for specified device/stream
     m_mutex.lock();
@@ -75,7 +75,7 @@ void SharedImageBuffer::setSyncEnabled(bool enable)
     m_doSync = enable;
 }
 
-bool SharedImageBuffer::isSyncEnabledForDeviceNumber(int deviceNumber)
+bool SharedImageBuffer::isSyncEnabledForDeviceNumber(QString deviceNumber)
 {
     return m_syncSet.contains(deviceNumber);
 }
@@ -85,7 +85,7 @@ bool SharedImageBuffer::getSyncEnabled()
     return m_doSync;
 }
 
-bool SharedImageBuffer::containsImageBufferForDeviceNumber(int deviceNumber)
+bool SharedImageBuffer::containsImageBufferForDeviceNumber(QString deviceNumber)
 {
     return m_imageBufferMap.contains(deviceNumber);
 }

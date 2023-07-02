@@ -21,7 +21,7 @@ class CameraView : public QWidget
     Q_OBJECT
 
     public:
-        explicit CameraView(int deviceNumber, SharedImageBuffer *sharedImageBuffer, QWidget *parent = 0);
+        explicit CameraView(QString deviceNumber, SharedImageBuffer *sharedImageBuffer, QWidget *parent = 0);
         ~CameraView();
         bool connectToCamera(bool dropFrame, int capThreadPrio, int procThreadPrio, bool createProcThread, int width, int height);
 
@@ -29,7 +29,7 @@ class CameraView : public QWidget
         void stopCaptureThread();
         void stopProcessingThread();
         Ui::CameraView *ui;
-        int m_deviceNumber;
+        QString m_deviceNumber;
         bool m_isCameraConnected;
         ProcessingThread *m_processingThread;
         CaptureThread *m_captureThread;

@@ -19,7 +19,7 @@ class CaptureThread : public QThread
     Q_OBJECT
 
     public:
-        CaptureThread(SharedImageBuffer *sharedImageBuffer, int deviceNumber, bool dropFrameIfBufferFull, int width, int height);
+        CaptureThread(SharedImageBuffer *sharedImageBuffer, QString deviceNumber, bool dropFrameIfBufferFull, int width, int height);
         void stop();
         bool connectToCamera();
         bool disconnectCamera();
@@ -41,7 +41,7 @@ class CaptureThread : public QThread
         int m_sampleNumber;
         int m_fpsSum;
         bool m_dropFrameIfBufferFull;
-        int m_deviceNumber;
+        QString m_deviceNumber;
         int m_width;
         int m_height;
 

@@ -7,6 +7,7 @@
 #include "Config.h"
 
 #include <QLabel>
+#include <QtCore>
 #include <QMessageBox>
 #include <QPushButton>
 
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFullScreen, &QAction::toggled, this, &MainWindow::setFullScreen);
     // Create SharedImageBuffer object
     m_sharedImageBuffer = new SharedImageBuffer();
+    m_cameraNum = 0;
 }
 
 MainWindow::~MainWindow()
@@ -64,16 +66,16 @@ void MainWindow::connectToCamera()
         if(cameraConnectDialog->exec() == QDialog::Accepted)
         {
             // Save user-defined device number
-            int deviceNumber = cameraConnectDialog->getDeviceNumber();
+            std::string deviceNumber = cameraConnectDialog->getDeviceUrl();// cameraConnectDialog->getDeviceNumber();
             // Check if this camera is already connected
-            if (!m_deviceNumberMap.contains(deviceNumber))
+            if (true)
             {
                 // Create ImageBuffer with user-defined size
                 Buffer<cv::Mat> *imageBuffer = new Buffer<cv::Mat>(cameraConnectDialog->getImageBufferSize());
                 // Add created ImageBuffer to SharedImageBuffer object
-                m_sharedImageBuffer->add(deviceNumber, imageBuffer, ui->actionSynchronizeStreams->isChecked());
+                m_sharedImageBuffer->add(QString::fromStdString(deviceNumber), imageBuffer, ui->actionSynchronizeStreams->isChecked());
                 // Create CameraView
-                m_cameraViewMap[deviceNumber] = new CameraView(deviceNumber, m_sharedImageBuffer, ui->tabWidget);
+                CameraView* cameraview = new CameraView(QString::fromStdString(deviceNumber), m_sharedImageBuffer, ui->tabWidget);
 
                 // Check if stream synchronization is enabled
                 if(ui->actionSynchronizeStreams->isChecked())
@@ -87,6 +89,7 @@ void MainWindow::connectToCamera()
                     // Start processing
                     if(ret == QMessageBox::Yes)
                     {
+                        std::cout << "Start processing" << std::endl;
                         m_sharedImageBuffer->setSyncEnabled(true);
                     }
                     // Defer processing
@@ -97,15 +100,16 @@ void MainWindow::connectToCamera()
                 }
 
                 // Attempt to connect to camera
-                if (m_cameraViewMap[deviceNumber]->connectToCamera(cameraConnectDialog->getDropFrameCheckBoxState(),
+                if (cameraview->connectToCamera(cameraConnectDialog->getDropFrameCheckBoxState(),
                                                cameraConnectDialog->getCaptureThreadPrio(),
                                                cameraConnectDialog->getProcessingThreadPrio(),
                                                cameraConnectDialog->getEnableFrameProcessingCheckBoxState(),
                                                cameraConnectDialog->getResolutionWidth(),
                                                cameraConnectDialog->getResolutionHeight()))
                 {
+                    m_cameraNum += 1;
                     // Add to map
-                    m_deviceNumberMap[deviceNumber] = nextTabIndex;
+                    //cameraview = nextTabIndex;
                     // Save tab label
                     QString tabLabel = cameraConnectDialog->getTabLabel();
                     // Allow tabs to be closed
@@ -115,26 +119,14 @@ void MainWindow::connectToCamera()
                     {
                         ui->tabWidget->removeTab(0);
                     }
+
                     // Add tab
-                    ui->tabWidget->addTab(m_cameraViewMap[deviceNumber], tabLabel + " [" + QString::number(deviceNumber) + "]");
-                    ui->tabWidget->setCurrentWidget(m_cameraViewMap[deviceNumber]);
+                    ui->tabWidget->addTab(cameraview, tabLabel + "[" + QString::fromStdString(deviceNumber) + "]");
+                    ui->tabWidget->setCurrentWidget(cameraview);
                     // Set tooltips
                     setTabCloseToolTips(ui->tabWidget, tr("Disconnect Camera"));
                     // Prevent user from enabling/disabling stream synchronization after a camera has been connected
                     ui->actionSynchronizeStreams->setEnabled(false);
-                }
-                // Could not connect to camera
-                else
-                {
-                    // Display error message
-                    QMessageBox::warning(this, tr("Connect to Camera"), tr("Could not connect to camera. Please check device number."));
-                    // Explicitly delete widget
-                    delete m_cameraViewMap[deviceNumber];
-                    m_cameraViewMap.remove(deviceNumber);
-                    // Remove from shared buffer
-                    m_sharedImageBuffer->removeByDeviceNumber(deviceNumber);
-                    // Explicitly delete ImageBuffer object
-                    delete imageBuffer;
                 }
             }
             // Display error message
@@ -182,12 +174,19 @@ void MainWindow::disconnectCamera(int index)
         // Close tab
         ui->tabWidget->removeTab(index);
 
-        // Delete widget (CameraView) contained in tab
-        delete m_cameraViewMap[m_deviceNumberMap.key(index)];
-        m_cameraViewMap.remove(m_deviceNumberMap.key(index));
+        //// Delete widget (CameraView) contained in tab
+        //delete m_cameraViewMap[m_deviceNumberMap.contains(index)];
+        //m_cameraViewMap.remove(m_deviceNumberMap.contains(index));
 
         // Remove from map
-        removeFromMapByTabIndex(m_deviceNumberMap, index);
+        std::string deviceNumber =  removeFromMapByTabIndex(m_deviceNumberMap, index);
+        // Delete widget (CameraView) contained in tab
+        delete m_cameraViewMap[deviceNumber];
+
+        // Remove from dict
+        m_cameraViewMap.erase(deviceNumber);
+        m_deviceNumberMap.erase(deviceNumber);
+
         // Update map (if tab closed is not last)
         if(index != (nTabs - 1))
         {
@@ -212,31 +211,38 @@ void MainWindow::showAboutDialog()
     QMessageBox::information(this, tr("About"), QString("%1 v%2\n\nCreated by %3\nEmail: %4\nWebsite: %5").arg(APP_NAME).arg(APP_VERSION).arg(APP_AUTHOR_NAME).arg(APP_AUTHOR_EMAIL).arg(APP_AUTHOR_WEBSITE));
 }
 
-bool MainWindow::removeFromMapByTabIndex(QMap<int, int> &map, int tabIndex)
+std::string MainWindow::removeFromMapByTabIndex(std::map<std::string, int>& map,int tabIndex)
 {
-    QMutableMapIterator<int, int> i(map);
-    while (i.hasNext())
-    {
-         i.next();
-         if(i.value() == tabIndex)
-         {
-             i.remove();
-             return true;
-         }
+    for (auto& [key, value] : map) {
+        if (value == tabIndex) {
+            return key;
+        }
     }
-    return false;
 }
 
-void MainWindow::updateMapValues(QMap<int, int> &map, int tabIndex)
+void print_map(std::string_view comment, const std::map<std::string, int>& m)
 {
-    QMutableMapIterator<int, int> i(map);
-    while (i.hasNext())
-    {
-        i.next();
-        if(i.value() > tabIndex)
-        {
-            i.setValue(i.value()-1);
-        }
+    std::cout << comment;
+    // iterate using C++17 facilities
+    for (const auto& [key, value] : m)
+        std::cout << '[' << key << "] = " << value << "; ";
+
+    // C++11 alternative:
+    //  for (const auto& n : m)
+    //      std::cout << n.first << " = " << n.second << "; ";
+    //
+    // C++98 alternative
+    //  for (std::map<std::string, int>::const_iterator it = m.begin(); it != m.end(); it++)
+    //      std::cout << it->first << " = " << it->second << "; ";
+
+    std::cout << '\n';
+}
+
+void MainWindow::updateMapValues(std::map<std::string, int> &map, int tabIndex)
+{
+    for (auto& [key, value] : map) {
+        if (value > tabIndex)
+            map[key] = value - 1;
     }
 }
 

@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QMenu>
 
-CameraView::CameraView(int deviceNumber, SharedImageBuffer *sharedImageBuffer, QWidget *parent) :
+CameraView::CameraView(QString deviceNumber, SharedImageBuffer *sharedImageBuffer, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CameraView),
     m_sharedImageBuffer(sharedImageBuffer)
@@ -73,11 +73,11 @@ CameraView::~CameraView()
         // Disconnect camera
         if (m_captureThread->disconnectCamera())
         {
-            qDebug() << "[" << m_deviceNumber << "] Camera successfully disconnected.";
+            qDebug() << "Camera successfully disconnected.";
         }
         else
         {
-            qDebug() << "[" << m_deviceNumber << "] WARNING: Camera already disconnected.";
+            qDebug() << "WARNING: Camera already disconnected.";
         }
     }
     // Delete UI
@@ -101,6 +101,7 @@ bool CameraView::connectToCamera(bool dropFrameIfBufferFull, int capThreadPrio, 
     // Attempt to connect to camera
     if (m_captureThread->connectToCamera())
     {
+        std::cout << "Check Attempt to connect to camera" << std::endl;
         // Create processing thread
         m_processingThread = new ProcessingThread(m_sharedImageBuffer, m_deviceNumber);
         // Create image processing settings dialog
@@ -136,7 +137,8 @@ bool CameraView::connectToCamera(bool dropFrameIfBufferFull, int capThreadPrio, 
         // Enable "Clear Image Buffer" push button
         ui->clearImageBufferButton->setEnabled(true);
         // Set text in labels
-        ui->deviceNumberLabel->setNum(m_deviceNumber);
+        QString(m_deviceNumber);
+        ui->deviceNumberLabel->setText(m_deviceNumber);
         ui->cameraResolutionLabel->setText(QString::number(m_captureThread->getInputSourceWidth()) + QString("x") + QString::number(m_captureThread->getInputSourceHeight()));
         // Set internal flag and return
         m_isCameraConnected = true;
@@ -154,7 +156,7 @@ bool CameraView::connectToCamera(bool dropFrameIfBufferFull, int capThreadPrio, 
 
 void CameraView::stopCaptureThread()
 {
-    qDebug() << "[" << m_deviceNumber << "] About to stop capture thread...";
+    qDebug() << "About to stop capture thread...";
     m_captureThread->stop();
     m_sharedImageBuffer->wakeAll(); // This allows the thread to be stopped if it is in a wait-state
     // Take one frame off a FULL queue to allow the capture thread to finish
@@ -163,16 +165,16 @@ void CameraView::stopCaptureThread()
         m_sharedImageBuffer->getByDeviceNumber(m_deviceNumber)->get();
     }
     m_captureThread->wait();
-    qDebug() << "[" << m_deviceNumber << "] Capture thread successfully stopped.";
+    qDebug() << "Capture thread successfully stopped.";
 }
 
 void CameraView::stopProcessingThread()
 {
-    qDebug() << "[" << m_deviceNumber << "] About to stop processing thread...";
+    qDebug() << "About to stop processing thread...";
     m_processingThread->stop();
     m_sharedImageBuffer->wakeAll(); // This allows the thread to be stopped if it is in a wait-state
     m_processingThread->wait();
-    qDebug() << "[" << m_deviceNumber << "] Processing thread successfully stopped.";
+    qDebug() << "Processing thread successfully stopped.";
 }
 
 void CameraView::updateCaptureThreadStats(ThreadStatisticsData statData)
@@ -212,11 +214,11 @@ void CameraView::clearImageBuffer()
 {
     if (m_sharedImageBuffer->getByDeviceNumber(m_deviceNumber)->clear())
     {
-        qDebug() << "[" << m_deviceNumber << "] Image buffer successfully cleared.";
+        qDebug() << "Image buffer successfully cleared.";
     }
     else
     {
-        qDebug() << "[" << m_deviceNumber << "] WARNING: Could not clear image buffer.";
+        qDebug() << "WARNING: Could not clear image buffer.";
     }
 }
 

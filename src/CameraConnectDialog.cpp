@@ -60,6 +60,20 @@ int CameraConnectDialog::getDeviceNumber()
     }
 }
 
+std::string CameraConnectDialog::getDeviceUrl()
+{
+    // Set device number to default (any available camera) if field is blank
+    if (ui->rtspEdit->text().isEmpty())
+    {
+        QMessageBox::warning(parentWidget(), tr("Device IP Camera"), QString("%1\n\n%2").arg(tr("IP Camera not specified.")).arg("Automatically set to 0."));
+        return 0;
+    }
+    else
+    {
+        return ui->rtspEdit->text().toStdString();
+    }
+}
+
 int CameraConnectDialog::getResolutionWidth()
 {
     // Return -1 if field is blank

@@ -9,7 +9,7 @@
 
 using namespace cv;
 
-ProcessingThread::ProcessingThread(SharedImageBuffer *sharedImageBuffer, int deviceNumber) :
+ProcessingThread::ProcessingThread(SharedImageBuffer *sharedImageBuffer, QString deviceNumber) :
     QThread(),
     m_sharedImageBuffer(sharedImageBuffer)
 {

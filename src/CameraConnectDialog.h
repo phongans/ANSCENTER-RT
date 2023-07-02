@@ -19,6 +19,7 @@ class CameraConnectDialog : public QDialog
         void setDeviceNumber();
         void setImageBufferSize();
         int getDeviceNumber();
+        std::string getDeviceUrl();
         int getResolutionWidth();
         int getResolutionHeight();
         int getImageBufferSize();

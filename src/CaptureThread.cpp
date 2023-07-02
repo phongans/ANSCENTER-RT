@@ -7,7 +7,7 @@
 
 using namespace cv;
 
-CaptureThread::CaptureThread(SharedImageBuffer *sharedImageBuffer, int deviceNumber, bool dropFrameIfBufferFull, int width, int height) :
+CaptureThread::CaptureThread(SharedImageBuffer *sharedImageBuffer, QString deviceNumber, bool dropFrameIfBufferFull, int width, int height) :
     QThread(),
     m_sharedImageBuffer(sharedImageBuffer)
 {
@@ -72,8 +72,10 @@ void CaptureThread::run()
 
 bool CaptureThread::connectToCamera()
 {
+
+    qDebug() << "[DEBUG] Check capture  rtsp:" + m_deviceNumber;
     // Open camera
-    bool camOpenResult = m_cap.open(m_deviceNumber);
+    bool camOpenResult = m_cap.open(m_deviceNumber.toStdString());
     // Set resolution
     if (m_width != -1)
     {

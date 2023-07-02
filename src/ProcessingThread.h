@@ -21,7 +21,7 @@ class ProcessingThread : public QThread
     Q_OBJECT
 
     public:
-        ProcessingThread(SharedImageBuffer *sharedImageBuffer, int deviceNumber);
+        ProcessingThread(SharedImageBuffer *sharedImageBuffer, QString deviceNumber);
         QRect getCurrentROI();
         void stop();
 
@@ -46,7 +46,7 @@ class ProcessingThread : public QThread
         int m_processingTime;
         int m_fpsSum;
         int m_sampleNumber;
-        int m_deviceNumber;
+        QString m_deviceNumber;
         bool m_enableFrameProcessing;
         InferenceTRT inference = InferenceTRT("C:/Projects/Research/Models/yolov8s.onnx");
     protected:

@@ -23,14 +23,15 @@ class MainWindow : public QMainWindow
         ~MainWindow();
 
     private:
-        bool removeFromMapByTabIndex(QMap<int, int>& map, int tabIndex);
-        void updateMapValues(QMap<int, int>& map, int tabIndex);
+        std::string removeFromMapByTabIndex(std::map<std::string, int>& map, int tabIndex);
+        void updateMapValues(std::map<std::string, int>& map, int tabIndex);
         void setTabCloseToolTips(QTabWidget *tabs, QString tooltip);
         Ui::MainWindow *ui;
         QPushButton *m_connectToCameraButton;
-        QMap<int, int> m_deviceNumberMap;
-        QMap<int, CameraView*> m_cameraViewMap;
+        std::map<std::string, int> m_deviceNumberMap;
+        std::map<std::string, CameraView*> m_cameraViewMap;
         SharedImageBuffer *m_sharedImageBuffer;
+        int m_cameraNum;
 
     public slots:
         void connectToCamera();
