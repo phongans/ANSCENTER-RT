@@ -63,14 +63,16 @@ int CameraConnectDialog::getDeviceNumber()
 std::string CameraConnectDialog::getDeviceUrl()
 {
     // Set device number to default (any available camera) if field is blank
-    if (ui->rtspEdit->text().isEmpty())
-    {
-        QMessageBox::warning(parentWidget(), tr("Device IP Camera"), QString("%1\n\n%2").arg(tr("IP Camera not specified.")).arg("Automatically set to 0."));
-        return 0;
-    }
-    else
+    if (ui->rtspUsername->text().isEmpty() && ui->rtspPassword->text().isEmpty() && ui->rtspIP->text().isEmpty() && ui->rtspPort->text().isEmpty() && ui->rtspPath->text().isEmpty())
     {
         return ui->rtspEdit->text().toStdString();
+    }
+    else if(ui->rtspPath->text().isEmpty())
+    {
+        return ("rtsp://" + ui->rtspUsername->text().toStdString() + ":" + ui->rtspPassword->text().toStdString() + "@" + ui->rtspIP->text().toStdString() + ":" + ui->rtspPort->text().toStdString());
+    }
+    else {
+        return ("rtsp://" + ui->rtspUsername->text().toStdString() + ":" + ui->rtspPassword->text().toStdString() + "@" + ui->rtspIP->text().toStdString() + ":" + ui->rtspPort->text().toStdString() + "/" + ui->rtspPath->text().toStdString());
     }
 }
 
