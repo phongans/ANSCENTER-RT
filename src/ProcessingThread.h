@@ -12,7 +12,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "Structures.h"
-#include "Plugins/Inference/src/inference_trt.h"
+#include <inference_trt.h>
 
 class SharedImageBuffer;
 
