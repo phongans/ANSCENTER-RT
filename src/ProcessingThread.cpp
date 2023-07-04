@@ -64,14 +64,6 @@ void ProcessingThread::run()
         ////////////////////////////////////
         // PERFORM IMAGE PROCESSING BELOW //
         ////////////////////////////////////
-        // Grayscale conversion
-        if (m_imgProcFlags.grayscaleOn && (m_currentFrame.channels() == 3 || m_currentFrame.channels() == 4))
-        {
-            cvtColor(m_currentFrame,
-                m_currentFrame,
-                COLOR_BGR2GRAY);
-        }
-
         // Smooth
         if (m_imgProcFlags.smoothOn)
         {
@@ -117,31 +109,50 @@ void ProcessingThread::run()
                 cv::Point(-1, -1),
                 m_imgProcSettings.erodeNumberOfIterations);
         }
-        // Flip
-        if (m_imgProcFlags.flipOn)
-        {
-            flip(m_currentFrame,
-                m_currentFrame,
-                m_imgProcSettings.flipCode);
-        }
-        // Canny edge detection
-        if (m_imgProcFlags.cannyOn)
-        {
-            Canny(m_currentFrame,
-                m_currentFrame,
-                m_imgProcSettings.cannyThreshold1,
-                m_imgProcSettings.cannyThreshold2,
-                m_imgProcSettings.cannyApertureSize,
-                m_imgProcSettings.cannyL2gradient);
-        }
-        ////////////////////////////////////
-        // PERFORM IMAGE PROCESSING ABOVE //
-        ////////////////////////////////////
 
         // Inference here
         auto objects = inference.detectObjects(m_currentFrame);
 
-        inference.drawObjectLabels(m_currentFrame, objects);
+        // Canny edge detection tracker
+        if (m_imgProcFlags.cannyOn)
+        {
+            std::vector<std::vector<float>> data;
+            for (auto const& value : objects) {
+                std::vector<float> row;
+                for (;;) {
+                    row.push_back(value.rect.x);
+                    row.push_back(value.rect.y);
+                    row.push_back(value.rect.x + value.rect.width);
+                    row.push_back(value.rect.y + value.rect.height);
+                    row.push_back(value.probability);
+                    row.push_back(value.label);
+                    break;
+                }
+                data.push_back(row);
+
+                std::vector<Eigen::RowVectorXf> res = tracker.update(Vector2Matrix(data));
+
+                data.clear();
+
+                for (auto j : res) {
+                    int ID = int(j[4]);
+                    int Class = int(j[5]);
+                    float conf = j[6];
+                    cv::putText(m_currentFrame, cv::format("ID:%d", ID), cv::Point(j[0], j[1] - 5), 0, 0.5, cv::Scalar(0, 0, 255), 1, cv::LINE_AA);
+                    cv::rectangle(m_currentFrame, cv::Rect(j[0], j[1], j[2] - j[0] + 1, j[3] - j[1] + 1), cv::Scalar(0, 0, 255), 1);
+                }
+            }
+        }
+
+        ////////////////////////////////////
+        // PERFORM IMAGE PROCESSING ABOVE //
+        ////////////////////////////////////
+        
+        // Flip
+        if (m_imgProcFlags.flipOn)
+        {
+            inference.drawObjectLabels(m_currentFrame, objects);
+        }
 
         // Convert Mat to QImage
         m_frame = MatToQImage(m_currentFrame);
@@ -239,4 +250,14 @@ void ProcessingThread::setROI(QRect roi)
 QRect ProcessingThread::getCurrentROI()
 {
     return QRect(m_currentROI.x, m_currentROI.y, m_currentROI.width, m_currentROI.height);
+}
+
+Eigen::Matrix<float, Eigen::Dynamic, 6> ProcessingThread::Vector2Matrix(std::vector<std::vector<float>> data) {
+    Eigen::Matrix<float, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
+    for (int i = 0; i < data.size(); ++i) {
+        for (int j = 0; j < data[0].size(); ++j) {
+            matrix(i, j) = data[i][j];
+        }
+    }
+    return matrix;
 }

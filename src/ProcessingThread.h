@@ -13,6 +13,7 @@
 
 #include "Structures.h"
 #include <inference_trt.h>
+#include <OCSort.hpp>
 
 class SharedImageBuffer;
 
@@ -28,6 +29,7 @@ class ProcessingThread : public QThread
     private:
         void updateFPS(int);
         void resetROI();
+        Eigen::Matrix<float, Eigen::Dynamic, 6> Vector2Matrix(std::vector<std::vector<float>> data);
         SharedImageBuffer *m_sharedImageBuffer;
         cv::Mat m_currentFrame;
         cv::Mat m_currentFrameGrayscale;
@@ -49,6 +51,7 @@ class ProcessingThread : public QThread
         QString m_deviceNumber;
         bool m_enableFrameProcessing;
         InferenceTRT inference = InferenceTRT("C:/Projects/Research/Models/yolov8s.onnx");
+        ocsort::OCSort tracker = ocsort::OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
     protected:
         void run();
 

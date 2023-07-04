@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>440</width>
+    <width>441</width>
     <height>380</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="smoothTab_5">
        <attribute name="title">
@@ -785,7 +785,7 @@
       </widget>
       <widget class="QWidget" name="flipTab_5">
        <attribute name="title">
-        <string>Flip</string>
+        <string>Detector (Instance)</string>
        </attribute>
        <widget class="QWidget" name="layoutWidget5_5">
         <property name="geometry">
@@ -827,7 +827,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Mode:</string>
+              <string>Class:</string>
              </property>
             </widget>
            </item>
@@ -839,7 +839,7 @@
               </font>
              </property>
              <property name="text">
-              <string>X-axis</string>
+              <string>Person</string>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">flipCodeGroup</string>
@@ -854,7 +854,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Y-axis</string>
+              <string>Car</string>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">flipCodeGroup</string>
@@ -869,12 +869,92 @@
               </font>
              </property>
              <property name="text">
-              <string>Both axes</string>
+              <string>Bus</string>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">flipCodeGroup</string>
              </attribute>
             </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="flipBothAxesButton_2">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Truck</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="flipBothAxesButton_3">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Motocycle</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_61">
+           <item>
+            <widget class="QLabel" name="label_86">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>NMS Threshold:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Confidence</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>IoU</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_2"/>
            </item>
           </layout>
          </item>
@@ -903,7 +983,7 @@
       </widget>
       <widget class="QWidget" name="cannyTab_5">
        <attribute name="title">
-        <string>Canny</string>
+        <string>Tracker (Instacne)</string>
        </attribute>
        <widget class="QWidget" name="layoutWidget6_5">
         <property name="geometry">
@@ -933,7 +1013,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Threshold 1:</string>
+              <string>Process noise cov:</string>
              </property>
             </widget>
            </item>
@@ -980,7 +1060,7 @@
               </font>
              </property>
              <property name="text">
-              <string>[0-999]</string>
+              <string>[0-0.10000000]</string>
              </property>
             </widget>
            </item>
@@ -1004,7 +1084,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Threshold 2:</string>
+              <string>Mesuarement noise cov:</string>
              </property>
             </widget>
            </item>
@@ -1051,7 +1131,7 @@
               </font>
              </property>
              <property name="text">
-              <string>[0-999]</string>
+              <string>[0-100]</string>
              </property>
             </widget>
            </item>
@@ -1075,7 +1155,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Aperture Size:</string>
+              <string>Error cov:</string>
              </property>
             </widget>
            </item>
@@ -1122,7 +1202,78 @@
               </font>
              </property>
              <property name="text">
-              <string>[3/5/7]</string>
+              <string>[0-100]</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_60">
+           <item>
+            <widget class="QLabel" name="label_85">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>IoU matching:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="cannyApertureSizeEdit_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_87">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>27</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>[0-1.0]</string>
              </property>
             </widget>
            </item>
@@ -1144,7 +1295,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Use L2-norm</string>
+            <string>Enable Kalman Filter</string>
            </property>
           </widget>
          </item>
@@ -1281,7 +1432,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="flipCodeGroup"/>
   <buttongroup name="smoothTypeGroup"/>
+  <buttongroup name="flipCodeGroup"/>
  </buttongroups>
 </ui>

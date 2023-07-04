@@ -24,7 +24,7 @@ include(cmake/FindTensorRT.cmake)
 ########
 # Qt 5 #
 ########
-set(Qt5Widgets_DIR C:/Qt/Qt5.12.5/5.12.5/msvc2017)
+set(Qt5Widgets_DIR C:/Qt/Qt5.12.12/5.12.12/msvc2017_64)
 find_package(Qt5Widgets REQUIRED)
 
 ##########

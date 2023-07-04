@@ -1,5 +1,6 @@
 set(inference_headers
 	Plugins/inference/include/inference_trt.h
+	Plugins/Tracker/include/OCSort.hpp
 )
 
 file(GLOB_RECURSE UI_FILES *.ui)
@@ -14,8 +15,11 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.h.cmake
 
 find_library(TRT_API_LIBRARY NAMES tensorrt_cpp_api PATHS Plugins/Inference/libtensorrt/lib)
 find_library(DETECTOR_LIBRARY NAMES inferencetrt PATHS Plugins/Inference/lib)
+find_library(OCSORT_LIBRARY NAMES ocsort PATHS Plugins/Tracker/lib)
 
-include_directories(Plugins/Inference/include Plugins/Inference/libtensorrt/include)
+include_directories(Plugins/Inference/include)
+include_directories(Plugins/Inference/libtensorrt/include)
+include_directories(Plugins/Tracker/include)
 
 add_executable(${CMAKE_PROJECT_NAME}
   ${UI_HEADERS}
@@ -32,6 +36,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC
   ${TensorRT_LIBRARIES}
   ${TRT_API_LIBRARY}
   ${DETECTOR_LIBRARY}
+  ${OCSORT_LIBRARY}
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${inference_headers} ${TensorRT_INCLUDE_DIR} ${CUDA_TOOLKIT_INCLUDE})
