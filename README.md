@@ -1,6 +1,21 @@
 # OVIDA-RT Edge AI Video Analytics for any hardware.
 
-![ovida](ovida.png)
+![ovida](doc/ovida.png)
+
+# Show case
+## Connect 
+![ovida](doc/conect-camara.png)
+
+## Camera view
+![ovida](doc/camaraview.png)
+
+## Detector
+![ovida](doc/detector.png)
+
+## Tracker
+![ovida](doc/tracker.png)
+
+## Analysis setup
 
 # Introducing  OVIDA-RT.
 OVIDA-RT is our AI software stack that comes pre-installed with dozens of video analytics and computer vision solutions. It's easy to configure and customize to your use-case, even if you're not a data scientist or developer.
