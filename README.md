@@ -7,7 +7,7 @@
 ![ovida](doc/conect-camara.png)
 
 ## Camera view
-![ovida](doc/camaraview.png)
+![ovida](doc/cameraview.png)
 
 ## Detector
 ![ovida](doc/detector.png)
