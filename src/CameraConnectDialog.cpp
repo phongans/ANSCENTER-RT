@@ -23,11 +23,11 @@ CameraConnectDialog::CameraConnectDialog(QWidget *parent, bool isStreamSyncEnabl
     // resWEdit (resolution: width) input validation
     QRegExp rx3("^[0-9]{1,4}$"); // Integers 0 to 9999
     QRegExpValidator *validator3 = new QRegExpValidator(rx3, 0);
-    ui->resWEdit->setValidator(validator3);
+    ui->resWEditCamera->setValidator(validator3);
     // resHEdit (resolution: height) input validation
     QRegExp rx4("^[0-9]{1,4}$"); // Integers 0 to 9999
     QRegExpValidator *validator4 = new QRegExpValidator(rx4, 0);
-    ui->resHEdit->setValidator(validator4);
+    ui->resHEditCamera->setValidator(validator4);
     // Setup combo boxes
     QStringList threadPriorities;
     threadPriorities << tr("Idle") << tr("Lowest") << tr("Low") << tr("Normal") << tr("High") << tr("Highest") << tr("Time Critical") << tr("Inherit");
@@ -62,43 +62,47 @@ int CameraConnectDialog::getDeviceNumber()
 
 std::string CameraConnectDialog::getDeviceUrl()
 {
-    // Set device number to default (any available camera) if field is blank
-    if (ui->rtspUsername->text().isEmpty() && ui->rtspPassword->text().isEmpty() && ui->rtspIP->text().isEmpty() && ui->rtspPort->text().isEmpty() && ui->rtspPath->text().isEmpty())
-    {
-        return ui->rtspEdit->text().toStdString();
+    if (ui->radioDevice->isChecked()) {
+        return "0";
     }
-    else if(ui->rtspPath->text().isEmpty())
-    {
-        return ("rtsp://" + ui->rtspUsername->text().toStdString() + ":" + ui->rtspPassword->text().toStdString() + "@" + ui->rtspIP->text().toStdString() + ":" + ui->rtspPort->text().toStdString());
+    else if (ui->radioIPCamera->isChecked()) {
+        if (!ui->rtspEdit->text().isEmpty()) {
+            return ui->rtspEdit->text().toStdString();
+        }
+        return "0";
+    }
+    else if (ui->radioGStreamer->isChecked()) {
+        return "0";
     }
     else {
-        return ("rtsp://" + ui->rtspUsername->text().toStdString() + ":" + ui->rtspPassword->text().toStdString() + "@" + ui->rtspIP->text().toStdString() + ":" + ui->rtspPort->text().toStdString() + "/" + ui->rtspPath->text().toStdString());
+        QMessageBox::warning(parentWidget(), tr("Device Number"), QString("%1\n\n%2").arg(tr("Device Number not specified.")).arg("Automatically set to 0."));
+        return "0";
     }
 }
 
 int CameraConnectDialog::getResolutionWidth()
 {
     // Return -1 if field is blank
-    if(ui->resWEdit->text().isEmpty())
+    if(ui->resWEditCamera->text().isEmpty())
     {
         return -1;
     }
     else
     {
-        return ui->resWEdit->text().toInt();
+        return ui->resWEditCamera->text().toInt();
     }
 }
 
 int CameraConnectDialog::getResolutionHeight()
 {
     // Return -1 if field is blank
-    if(ui->resHEdit->text().isEmpty())
+    if(ui->resHEditCamera->text().isEmpty())
     {
         return -1;
     }
     else
     {
-        return ui->resHEdit->text().toInt();
+        return ui->resHEditCamera->text().toInt();
     }
 }
 
@@ -153,8 +157,8 @@ void CameraConnectDialog::resetToDefaults()
     // Default camera
     ui->deviceNumberEdit->clear();
     // Resolution
-    ui->resWEdit->clear();
-    ui->resHEdit->clear();
+    ui->resWEditCamera->clear();
+    ui->resHEditCamera->clear();
     // Image buffer size
     ui->imageBufferSizeEdit->setText(QString::number(DEFAULT_IMAGE_BUFFER_SIZE));
     // Drop frames
