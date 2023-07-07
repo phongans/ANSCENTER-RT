@@ -145,11 +145,11 @@ void FrameLabel::createContextMenu()
     action->setCheckable(true);
     menu_imgProc->addAction(action);
     action = new QAction(this);
-    action->setText(tr("Flip"));
+    action->setText(tr("Detector"));
     action->setCheckable(true);
     menu_imgProc->addAction(action);
     action = new QAction(this);
-    action->setText(tr("Canny"));
+    action->setText(tr("Tracker"));
     action->setCheckable(true);
     menu_imgProc->addAction(action);
     menu_imgProc->addSeparator();

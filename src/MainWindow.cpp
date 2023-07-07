@@ -107,13 +107,17 @@ void MainWindow::connectToCamera()
                                                cameraConnectDialog->getResolutionWidth(),
                                                cameraConnectDialog->getResolutionHeight()))
                 {
-                    m_cameraNum += 1;
+                    
                     // Add to map
-                    //cameraview = nextTabIndex;
+                    // cameraview = nextTabIndex;
+                    m_deviceNumberMap[deviceNumber] = nextTabIndex;
+                    m_cameraViewMap[deviceNumber] = cameraview;
+
                     // Save tab label
                     QString tabLabel = cameraConnectDialog->getTabLabel();
                     // Allow tabs to be closed
                     ui->tabWidget->setTabsClosable(true);
+
                     // If start tab, remove
                     if(nextTabIndex == 0)
                     {
@@ -123,6 +127,9 @@ void MainWindow::connectToCamera()
                     // Add tab
                     ui->tabWidget->addTab(cameraview, tabLabel + "[" + QString::fromStdString(deviceNumber) + "]");
                     ui->tabWidget->setCurrentWidget(cameraview);
+                    // Debug
+                    qDebug() << "Add Tab: " + QString::fromStdString(deviceNumber);
+
                     // Set tooltips
                     setTabCloseToolTips(ui->tabWidget, tr("Disconnect Camera"));
                     // Prevent user from enabling/disabling stream synchronization after a camera has been connected
