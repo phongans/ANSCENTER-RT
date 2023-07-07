@@ -1,4 +1,4 @@
-# OVIDA-RT Edge AI Video Analytics for any hardware.
+# OVIDA Edge AI Video Analytics for any hardware.
 
 ![ovida](doc/ovida.png)
 
