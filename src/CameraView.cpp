@@ -375,12 +375,12 @@ void CameraView::handleContextMenuAction(QAction *action)
         m_imageProcessingFlags.erodeOn = action->isChecked();
         emit newImageProcessingFlags(m_imageProcessingFlags);
     }
-    else if(action->text() == "Flip")
+    else if(action->text() == "Detector")
     {
         m_imageProcessingFlags.flipOn = action->isChecked();
         emit newImageProcessingFlags(m_imageProcessingFlags);
     }
-    else if(action->text() == "Canny")
+    else if(action->text() == "Tracker")
     {
         m_imageProcessingFlags.cannyOn = action->isChecked();
         emit newImageProcessingFlags(m_imageProcessingFlags);
