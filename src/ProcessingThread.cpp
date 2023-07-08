@@ -152,7 +152,10 @@ void ProcessingThread::run()
         if (m_imgProcFlags.flipOn)
         {
             inference.drawObjectLabels(m_currentFrame, objects);
+            qDebug() << "Detector On";
         }
+
+        inference.drawObjectLabels(m_currentFrame, objects);
 
         // Convert Mat to QImage
         m_frame = MatToQImage(m_currentFrame);

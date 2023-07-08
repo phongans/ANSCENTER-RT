@@ -2,6 +2,9 @@
 
 ![ovida](doc/ovida.png)
 
+# Layer Architecture
+![architecture]((doc/RT-LAYER.png))
+
 # Show case
 ## Connect 
 ![ovida](doc/conect-camara.png)
