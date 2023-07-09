@@ -44,3 +44,42 @@ Firstly, ensure the following are added to the Windows ```PATH``` variable (modi
 - CMake executable: ```C:/Program Files (x86)/CMake/bin```  
 - Qt libraries (DLLs): ```C:/Qt/Qt5.5.0/5.5/msvc2013_64/bin```  
 - OpenCV libraries (DLLs): ```C:/Users/Nick/Desktop/opencv/build/x64/vc12```
+
+
+# Reference architecture
+Projects/products/research using this application as a base:
+
+- Control Testbed, Monash University, Australia: [Video](https://www.youtube.com/watch?v=f_Ax93E_f1M)
+- MultiCV: A computer vision software infrastructure [Github](https://github.com/citiZenStef/MultiCV)
+- Realtime Video Magnification [Github](https://github.com/tschnz/Live-Video-Magnification)
+
+# Features
+
+- Interactive Qt-based GUI (Qt 6).
+- Utilizes the new OpenCV 4.x C++ API.
+- (NEW) Multi-camera support: Process frames from multiple cameras simultaneously.
+- (NEW) Stream synchronization: Multiple streams can be processed in sync on a frame-by-frame basis.
+- (NEW) Shared image buffer: Allows threads access to image buffers from other streams.
+- (NEW) Scale to fit frame: Frame can optionally be scaled to fit the entire window (i.e. when a ROI is set or a low resolution is being used).
+- (NEW) Resolution can optionally be set (via OpenCV call) when connecting to the camera.
+- (NEW) Application can now handle any camera resolution (window size will auto adjust on connect).
+- (NEW) Application window can now be resized freely (image will scale accordingly).
+- Small memory footprint (typically <30MB when one camera is connected).
+- Dedicated thread to capture frames from camera.
+- Dedicated thread to perform image processing on captured frames.
+- Thread priorities can be chosen at run-time.
+- Includes function to perform the required conversion from the OpenCV Mat format to Qt's QImage format.
+- Ability to choose image buffer size and camera device number at run-time.
+- Option to drop frame if image/frame buffer is full.
+- Ability to clear image buffer while the capture and processing threads are running.
+- Ability to set the "region of interest" (ROI) interactively with the aid of a mouse.
+- Graphical representation of image buffer status (% full).
+- Capture rate and processing rate (in FPS) display.
+- (NEW) Number of frames captured and processed display.
+- Camera information (device number and resolution) display.
+- Region of interest (ROI) information display.
+- Mouse cursor position display (including pixel position display).
+- Several in-built (and user-settable) OpenCV functions to assess multithreading performance:
+- Detector with YOLO
+- Tracker with OCSORT
+
